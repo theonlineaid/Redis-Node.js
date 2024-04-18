@@ -6,18 +6,7 @@ const redis = new Redis({
     port: 6377,        // Redis container's port (8001 mapped to 6377)
 });
 
-// async function resetData() {
-//     try {
-//         // Flush all data from Redis
-//         await redis.flushall();
-//         console.log('Redis data reset successfully');
-//     } catch (error) {
-//         console.error('Error resetting Redis data:', error);
-//     } finally {
-//         redis.quit(); // Close the Redis connection when done
-//     }
-// }
-
-// resetData();
+// Error handling
+;
 
 export default redis;
