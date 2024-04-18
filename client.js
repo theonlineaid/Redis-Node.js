@@ -1,12 +1,11 @@
+import redis from 'redis'
 
-import Redis from 'ioredis';
+// Create Redis client
+const client = redis.createClient({url: 'redis://localhost:6377'});
+await client.connect();
 
-const redis = new Redis({
-    host: 'localhost', // Or the IP address of your Redis container
-    port: 6377,        // Redis container's port (8001 mapped to 6377)
-});
+// Event listeners for Redis client
+client.on('connect', () => console.log('Redis client connected'));   
+client.on('error', (err) => console.log('Redis connection error:', err));
 
-// Error handling
-;
-
-export default redis;
+export default client;

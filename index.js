@@ -3,7 +3,7 @@ import axios from 'axios';
 import string from "./rdsa/string.js";
 import list from "./rdsa/list.js";
 import sets from "./rdsa/sets.js";
-import redis from './client.js';
+import client from './client.js';
 
 
 const app = express();
@@ -11,8 +11,8 @@ app.use(express.json());
 const port = process.env.PORT || 5000;
 app.get('/', async (req, res) => {
     try {
-        // Check if data is cached in Redis
-        const cachedData = await redis.json.get('data', '.');
+        // Check if data is cached in client
+        const cachedData = await client.json.get('data', '.');
 
         if (cachedData) {
             return res.json(cachedData); // Send cached JSON data to client
@@ -21,11 +21,11 @@ app.get('/', async (req, res) => {
         // Fetch data from external API
         const { data } = await axios.get("https://dummyjson.com/products");
 
-        // Cache fetched JSON data in Redis
-        await redis.json.set('data', '.', data);
+        // Cache fetched JSON data in client
+        await client.json.set('data', '.', data);
 
         // Set expiration for the cached data
-        await redis.expire('data', 50);
+        await client.expire('data', 50);
 
         // Send fetched JSON data to client
         return res.json(data);
